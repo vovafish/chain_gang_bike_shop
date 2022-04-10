@@ -2,6 +2,12 @@
 
 class Bicycle {
 
+    static public $database;
+
+    static function set_database($database) {
+        self::$database = $database;
+    }
+
     public $brand;
     public $model;
     public $year;
