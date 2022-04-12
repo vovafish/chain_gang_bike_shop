@@ -54,7 +54,7 @@ $bicycle = Bicycle::find_by_id($id);
       </dl>
       <dl>
         <dt>Price</dt>
-        <dd><?php echo h(money_format('$%i', $bicycle->price)); ?></dd>
+        <dd>$<?php echo h($bicycle->price); ?></dd>
       </dl>
       <dl>
         <dt>Description</dt>
