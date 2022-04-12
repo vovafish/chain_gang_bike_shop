@@ -91,6 +91,10 @@ class Bicycle
         $this->condition_id = $args['condition_id'] ?? 3;
     }
 
+    public function name() {
+        return "{$this->brand} {$this->model} {$this->year}";
+    }
+
     public function weight_kg()
     {
         return number_format($this->weight_kg, 2) . ' kg';
