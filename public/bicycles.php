@@ -49,9 +49,7 @@ $bike_array = $parser->parse();
       <?php } ?>
     </table>
     <?php 
-    
-      $sql = "SELECT * FROM bicycles";
-      $result =Bicycle::$database->query($sql);
+      $result =Bicycle::find_all();
       $row = $result->fetch_assoc();
       $result->free();
       
