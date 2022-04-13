@@ -14,7 +14,7 @@ if($bicycle == false) {
 if(is_post_request()) {
 
   // Save record using post parameters
-  $args =   $args = $_POST['bycicle'];
+  $args = $_POST['bicycle'];
   $bicycle->merge_attributes($args);
   $result = $bicycle->save();
 
@@ -43,7 +43,7 @@ if(is_post_request()) {
   <div class="bicycle edit">
     <h1>Edit Bicycle</h1>
 
-    <?php // echo display_errors($errors); ?>
+    <?php echo display_errors($bicycle->errors); ?>
 
     <form action="<?php echo url_for('/staff/bicycles/edit.php?id=' . h(u($id))); ?>" method="post">
 

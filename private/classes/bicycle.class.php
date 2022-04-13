@@ -5,6 +5,7 @@ class Bicycle {
   // ----- START OF ACTIVE RECORD CODE ------
   static protected $database;
   static protected $db_columns = ['id', 'brand', 'model', 'year', 'category', 'color', 'gender', 'price', 'weight_kg', 'condition_id', 'description'];
+  public $errors = [];
 
   static public function set_database($database) {
     self::$database = $database;
@@ -56,6 +57,9 @@ class Bicycle {
   }
 
   protected function create() {
+    $this->validate();
+    if(!empty($this->errors)) { return false; }
+
     $attributes = $this->sanitized_attributes();
     $sql = "INSERT INTO bicycles (";
     $sql .= join(', ', array_keys($attributes));
@@ -70,6 +74,9 @@ class Bicycle {
   }
 
   protected function update() {
+    $this->validate();
+    if(!empty($this->errors)) { return false; }
+
     $attributes = $this->sanitized_attributes();
     $attribute_pairs = [];
     foreach($attributes as $key => $value) {
@@ -115,6 +122,41 @@ class Bicycle {
       $sanitized[$key] = self::$database->escape_string($value);
     }
     return $sanitized;
+  }
+
+  protected function validate() {
+    $this->errors = [];
+    if(is_blank($this->brand)) {
+      $this->errors[] = "Brand cannot be blank.";
+    }
+    if(is_blank($this->model)) {
+      $this->errors[] = "Model cannot be blank.";
+    }
+    if(is_blank($this->year)) {
+      $this->errors[] = "Year cannot be blank.";
+    }
+    if(is_blank($this->category)) {
+      $this->errors[] = "Category cannot be blank.";
+    }
+    if(is_blank($this->color)) {
+      $this->errors[] = "Color cannot be blank.";
+    }
+    if(is_blank($this->description)) {
+      $this->errors[] = "Description cannot be blank.";
+    }
+    if(is_blank($this->gender)) {
+      $this->errors[] = "Gender cannot be blank.";
+    }
+    if(is_blank($this->price)) {
+      $this->errors[] = "Price cannot be blank.";
+    }
+    if(is_blank($this->weight_kg)) {
+      $this->errors[] = "Weight cannot be blank.";
+    }
+    if(is_blank($this->condition_id)) {
+      $this->errors[] = "Condition cannot be blank.";
+    }
+    return $this->errors;
   }
 
   // ----- END OF ACTIVE RECORD CODE ------
