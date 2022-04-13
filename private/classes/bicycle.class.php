@@ -91,6 +91,15 @@ class Bicycle {
     return $result;
   }
 
+  public function delete() {
+
+    $sql = "DELETE FROM bicycles ";
+    $sql .= "WHERE id='" . self::$database->escape_string($this->id) . "' ";
+    $sql .= "LIMIT 1";
+    $result = self::$database->query($sql); 
+    return $result;
+  }
+
   public function save() {
     if(isset($this->id)) {
       return $this->update();
