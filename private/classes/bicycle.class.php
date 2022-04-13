@@ -55,7 +55,7 @@ class Bicycle {
     return $object;
   }
 
-  public function create() {
+  protected function create() {
     $attributes = $this->sanitized_attributes();
     $sql = "INSERT INTO bicycles (";
     $sql .= join(', ', array_keys($attributes));
@@ -67,6 +67,37 @@ class Bicycle {
       $this->id = self::$database->insert_id;
     }
     return $result;
+  }
+
+  protected function update() {
+    $attributes = $this->sanitized_attributes();
+    $attribute_pairs = [];
+    foreach($attributes as $key => $value) {
+      $attribute_pairs[] = "{$key}='{$value}'";
+    }
+
+    $sql = "UPDATE bicycles SET ";
+    $sql .= join(', ', $attribute_pairs);
+    $sql .= " WHERE id='" . self::$database->escape_string($this->id) . "' ";
+    $sql .= "LIMIT 1";
+    $result = self::$database->query($sql);
+    return $result;
+  }
+
+  public function save() {
+    if(isset($this->id)) {
+      return $this->update();
+    } else {
+      return $this->create();
+    }
+  }
+
+  public function merge_attributes($args=[]) {
+    foreach($args as $key => $value) {
+      if(property_exists($this, $key) && !is_null($value)) {
+        $this->$key = $value;
+      }
+    }
   }
 
   public function attributes() {
