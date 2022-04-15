@@ -66,6 +66,6 @@ class Session {
     }
 
     public function clear_message() {
-    unset($_SESSION['message']);
+        unset($_SESSION['message']);
     }
 }
