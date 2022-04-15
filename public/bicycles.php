@@ -1,5 +1,18 @@
 <?php require_once('../private/initialize.php'); ?>
 
+<?php 
+$current_page = $_GET['page'] ?? 1;
+$per_page = 5;
+$total_count = Bicycle::count_all();
+  
+$pagination = new Pagination($current_page, $per_page, $total_count);
+
+$sql = "SELECT * FROM bicycles ";
+$sql .= "LIMIT {$per_page} ";
+$sql .= "OFFSET {$pagination->offset()}";
+$bikes = Bicycle::find_by_sql($sql);
+?>
+
 <?php $page_title = 'Inventory'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
@@ -29,7 +42,7 @@
 
 <?php
 
-$bikes = Bicycle::find_all();
+//$bikes = Bicycle::find_all();
 
 ?>
       <?php foreach ($bikes as $bike) { ?>
@@ -48,6 +61,12 @@ $bikes = Bicycle::find_all();
       </tr>
       <?php } ?>
     </table>
+
+    <?php 
+        $url = url_for('/bicycles/index.php');
+        echo $pagination->page_links($url);
+    ?>
+
   </div>
 
 </div>
